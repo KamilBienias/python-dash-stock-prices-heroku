@@ -178,7 +178,7 @@ def render_content(tab):
                             "marker": {
                                 "color": "red"
                             },
-                            "name": "Nowe zachorowania"
+                            "name": "Cena zamknięcia"
                         },
                     ],
                     'layout': {
