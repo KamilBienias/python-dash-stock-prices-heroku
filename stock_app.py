@@ -101,7 +101,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # nazwa __name__ to zmienna środowiskowa
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 # potrzebne do heroku
-# server = app.server
+server = app.server
 
 companies_names = {
     'GOOGL': 'Google',
@@ -201,5 +201,5 @@ def render_content(tab):
 
 
 # to na localhost
-if __name__ == "__main__":
-    app.run_server(debug=True)
+# if __name__ == "__main__":
+#     app.run_server(debug=True)
