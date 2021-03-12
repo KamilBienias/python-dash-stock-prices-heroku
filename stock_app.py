@@ -5,10 +5,11 @@ import dash_html_components as html
 from dash.dependencies import Input, Output
 # do pobierania cen akcji
 import pandas_datareader.data as web
-
+import pandas as pd
+import numpy as np
 
 # ticker to 'GOOGL' lub 'MSFT' lub 'AMZN'
-def fetch_data_and_safe_to_df_and_database(ticker):
+def fetch_data_and_safe_to_df(ticker):
     try:
         df = web.DataReader(name=ticker, data_source='stooq')
         print("Stary index:")
@@ -43,7 +44,12 @@ def fetch_data_and_safe_to_df_and_database(ticker):
         print()
         print("df =")
         print(df.head())
+        return df
+    except Exception as e:
+        print(e)
 
+def create_table_from_df(df):
+    try:
         # database connection
         connection = sqlite3.connect("stocks_database.sqlite")
         cursor = connection.cursor()
@@ -93,7 +99,7 @@ def fetch_data_and_safe_to_df_and_database(ticker):
     finally:
         connection.close()
         print("Connection closed")
-    return df
+
 
 # poczatek dash
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -157,8 +163,11 @@ def render_content(tab):
 
     if tab == company_name:
 
-        # pobieram df dla wybranego tickera i tworze tabele w bazie
-        df = fetch_data_and_safe_to_df_and_database(tab)
+        # tworze df dla wybranego tickera
+        df = fetch_data_and_safe_to_df(tab)
+
+        # zapisuje df do bazy, ale na heroku nie dziala
+        # create_table_from_df(df)
 
         # df dla wybranej firmy dla wybranych kolumn
         df_company = df[important_columns]
